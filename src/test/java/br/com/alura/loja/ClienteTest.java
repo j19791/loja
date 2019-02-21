@@ -4,11 +4,30 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import com.thoughtworks.xstream.XStream;
+
+import br.com.alura.loja.modelo.Carrinho;
 
 //cliente: teste que tenta acessar uma URI e verifica se o XML resultante é o que esperamos. Faz a requisição HTTP e confere que a representação que o servidor devolve é o que esperamos
 public class ClienteTest {
+
+	private HttpServer server;
+
+	@Before
+	public void sobeServidor() {
+		this.server = Servidor.inicializaServidor();
+	}
+
+	@After
+	public void mataServidor() {
+		server.stop();
+	}
 
 	@Test
 	public void testaQueAConexaoComOServidorFunciona() {
@@ -17,15 +36,27 @@ public class ClienteTest {
 		Client client = ClientBuilder.newClient();
 
 		// usar URI base,a do servidor, para fazer várias requisições
-		WebTarget target = client.target("http://www.mocky.io");
+		WebTarget target = client.target("http://localhost:8080");
 
 		// queremos fazer uma requisição para um path especifico epegar dados do
 		// servidor (get) e converta o corpo da resposta em uma String
-		String conteudo = target.path("/v2/52aaf5deee7ba8c70329fb7d").request().get(String.class);
+		String conteudo = target.path("/carrinhos").request().get(String.class);
 
 		// certeza que o conteúdo contem a 'Rua Vergueiro 3185', que ela contem o pedaço
 		// do XML que nos interessa.
 		Assert.assertTrue(conteudo.contains("<rua>Rua Vergueiro 3185"));
+
+	}
+
+	@Test
+	public void testaQueBuscarUmCarrinhoTrazOCarrinhoEsperado() {
+
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://localhost:8080");
+		String conteudo = target.path("/carrinhos").request().get(String.class);
+		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
+
+		Assert.assertEquals("Rua Vergueiro 3185, 8 andar", carrinho.getRua());
 
 	}
 

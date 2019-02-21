@@ -10,19 +10,27 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class Servidor {
 
 	public static void main(String[] args) throws IOException {
-		ResourceConfig config = new ResourceConfig().packages("br.com.alura.loja");// desejamos buscar no pacote
-																					// br.com.alura.loja, tudo que tem
-																					// aí dentro, quero que você busque
-																					// como JAX-RS e utilize como
-																					// serviço
-		URI uri = URI.create("http://localhost:8080");// uri e a porta que desejo abrir meu servidor
-		HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, config);// quero levantar um servidor do
-																					// Grizzly
+		/*
+		 * ResourceConfig config = new ResourceConfig().packages("br.com.alura.loja");//
+		 * desejamos buscar no pacote // br.com.alura.loja, tudo que tem // aí dentro,
+		 * quero que você busque // como JAX-RS e utilize como // serviço URI uri =
+		 * URI.create("http://localhost:8080");// uri e a porta que desejo abrir meu
+		 * servidor HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri,
+		 * config);// quero levantar um servidor do // Grizzly
+		 * 
+		 */
+		HttpServer server = inicializaServidor();
 
 		System.out.println("Servidor rodando");
 
 		System.in.read();// parar o servidor qdo o usuario clicar enter
 		server.stop();
+	}
+
+	public static HttpServer inicializaServidor() {
+		ResourceConfig config = new ResourceConfig().packages("br.com.alura.loja");
+		URI uri = URI.create("http://localhost:8080/");
+		return GrizzlyHttpServerFactory.createHttpServer(uri, config);
 	}
 
 }
