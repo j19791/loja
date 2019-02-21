@@ -14,10 +14,10 @@ public class CarrinhoResource {
 
 	@Path("{id}") // queremos receber o id (parametro) pela uri
 	@GET // o que será produzido sera consumido pelo cliente através do método get
-	@Produces(MediaType.APPLICATION_XML) // p/ o cliente saber q o que esta sendo produzido é um xml
+	@Produces(MediaType.APPLICATION_JSON) // p/ o cliente saber q o que esta sendo produzido é um json
 	public String busca(@PathParam("id") long id) {
 
-		return new CarrinhoDAO().busca(id).toXML();// busca o carrinho 1 e retorna a representação em XML
+		return new CarrinhoDAO().busca(id).toJson();// busca o carrinho 1 e retorna a representação em json
 
 	}
 }

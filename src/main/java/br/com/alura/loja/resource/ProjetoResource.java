@@ -13,10 +13,10 @@ public class ProjetoResource {
 
 	@Path("{id}")
 	@GET // o que será produzido sera consumido pelo cliente através do método get
-	@Produces(MediaType.APPLICATION_XML) // p/ o cliente saber q o que esta sendo produzido é um xml
+	@Produces(MediaType.APPLICATION_JSON) // p/ o cliente saber q o que esta sendo produzido é um xml
 	public String busca(@PathParam("id") long id) {
 
-		return new ProjetoDAO().busca(id).toXML();// busca o projeto 1 e retorna a representação em XML
+		return new ProjetoDAO().busca(id).toJson();// busca o projeto 1 e retorna a representação em XML
 
 	}
 }
