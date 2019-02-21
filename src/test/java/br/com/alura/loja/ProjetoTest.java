@@ -40,7 +40,7 @@ public class ProjetoTest {
 
 		// queremos fazer uma requisição para um path especifico epegar dados do
 		// servidor (get) e converta o corpo da resposta em uma String
-		String conteudo = target.path("/projetos").request().get(String.class);
+		String conteudo = target.path("/projetos/1").request().get(String.class);
 
 		System.out.println(conteudo);
 
@@ -61,7 +61,7 @@ public class ProjetoTest {
 
 		// queremos fazer uma requisição para um path especifico epegar dados do
 		// servidor (get) e converta o corpo da resposta em uma String
-		String conteudo = target.path("/projetos").request().get(String.class);
+		String conteudo = target.path("/projetos/1").request().get(String.class);
 
 		Projeto projeto = (Projeto) new XStream().fromXML(conteudo);
 

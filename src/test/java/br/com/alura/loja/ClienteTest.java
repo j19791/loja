@@ -40,7 +40,7 @@ public class ClienteTest {
 
 		// queremos fazer uma requisição para um path especifico epegar dados do
 		// servidor (get) e converta o corpo da resposta em uma String
-		String conteudo = target.path("/carrinhos").request().get(String.class);
+		String conteudo = target.path("/carrinhos/1").request().get(String.class);
 
 		// certeza que o conteúdo contem a 'Rua Vergueiro 3185', que ela contem o pedaço
 		// do XML que nos interessa.
@@ -53,7 +53,7 @@ public class ClienteTest {
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:8080");
-		String conteudo = target.path("/carrinhos").request().get(String.class);
+		String conteudo = target.path("/carrinhos/1").request().get(String.class);
 		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
 
 		Assert.assertEquals("Rua Vergueiro 3185, 8 andar", carrinho.getRua());
