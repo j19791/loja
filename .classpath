@@ -17,7 +17,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hk2-utils-2.2.0-b21.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.annotation-api-1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.inject-2.2.0-b21.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.ws.rs-api-2.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.ws.rs-api-2.0.jar" sourcepath="C:/Users/CORE I5/.m2/repository/javax/ws/rs/javax.ws.rs-api/2.0/javax.ws.rs-api-2.0-sources.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jersey-container-grizzly2-http-2.4.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/junit-4.9.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/osgi-resource-locator-1.0.1.jar"/>
