@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -36,8 +38,15 @@ public class ClienteTest {
 	@Test
 	public void testaQueAConexaoComOServidorFunciona() {
 
-		// cliente http para acessar o servidor (javax.ws)
-		Client client = ClientBuilder.newClient();
+		// posso ver o que é que o meu cliente JAX-RS está enviando para o servidor e o
+		// que é que o servidor está devolvendo configurando o meu cliente.
+		ClientConfig config = new ClientConfig();
+
+		// registrar uma API de log do Jersey (implmentação do JaX-RS
+		config.register(new LoggingFilter());
+
+		// cliente http para acessar o servidor (javax.ws) baseado na configuração acima
+		Client client = ClientBuilder.newClient(config);
 
 		// usar URI base,a do servidor, para fazer várias requisições
 		WebTarget target = client.target("http://localhost:8080");
