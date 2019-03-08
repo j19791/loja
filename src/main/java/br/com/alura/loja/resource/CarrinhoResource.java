@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,6 +17,7 @@ import com.thoughtworks.xstream.XStream;
 
 import br.com.alura.loja.dao.CarrinhoDAO;
 import br.com.alura.loja.modelo.Carrinho;
+import br.com.alura.loja.modelo.Produto;
 
 @Path("carrinhos") // classe que representa um carrinho na internet, um recurso que vai devolver o
 					// XML de um carrinho.
@@ -73,5 +75,38 @@ public class CarrinhoResource {
 		new CarrinhoDAO().busca(id).remove(produtoId);
 
 		return Response.ok().build();// deverá retornar 200 (ok)
+	}
+
+	// para testar:
+	// curl -v -X PUT -H "Content-Type: application/xml" -d
+	// "<br.com.alura.loja.modelo.Produto> <preco>60.0</preco> <id>3467</id>
+	// <nome>Jogo de esporte</nome> <quantidade>1</quantidade>
+	// </br.com.alura.loja.modelo.Produto>"
+	// http://localhost:8080/carrinhos/1/produtos/3467
+	@Path("{id}/produtos/{produtoId}")
+	@PUT
+	@Consumes(MediaType.APPLICATION_XML)
+	public Response alteraProduto(@PathParam("id") long id, @PathParam("produtoId") long produtoId, String conteudo) {
+
+		Produto produto = (Produto) new XStream().fromXML(conteudo);
+
+		new CarrinhoDAO().busca(id).troca(produto);
+
+		return Response.ok().build();
+	}
+
+	// para testar
+	// curl -v -X PUT -H "Content-Type: application/xml" -d
+	// "<br.com.alura.loja.modelo.Produto> <id>3467</id> <quantidade>1</quantidade>
+	// </br.com.alura.loja.modelo.Produto>"
+	// http://localhost:8080/carrinhos/1/produtos/3467/quantidade
+	@Path("{id}/produtos/{produtoId}/quantidade")
+	@PUT // idempotente. Toda vez que executado, o resultado é o mesmo
+	@Consumes(MediaType.APPLICATION_XML)
+	public Response alteraQtdProduto(@PathParam("id") long id, @PathParam("produtoId") long produtoId, String conteudo) {
+		Carrinho carrinho = new CarrinhoDAO().busca(id);
+		Produto produto = (Produto) new XStream().fromXML(conteudo);
+		carrinho.trocaQuantidade(produto);
+		return Response.ok().build();
 	}
 }
