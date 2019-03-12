@@ -53,11 +53,11 @@ public class ClienteTest {
 
 		// queremos fazer uma requisição para um path especifico epegar dados do
 		// servidor (get) e converta o corpo da resposta em uma String
-		String conteudo = target.path("/carrinhos/1").request().get(String.class);
+		Carrinho carrinho = target.path("/carrinhos/1").request().get(Carrinho.class);// utilizadno jaxb
 
-		// certeza que o conteúdo contem a 'Rua Vergueiro 3185', que ela contem o pedaço
-		// do XML que nos interessa.
-		Assert.assertTrue(conteudo.contains("<rua>Rua Vergueiro 3185"));
+		System.out.println(carrinho.getProdutos().get(0).getNome());
+
+		Assert.assertEquals("Microfone", carrinho.getProdutos().get(0).getNome());// NOEM DO PRIMEIRO PRODUTO
 
 	}
 

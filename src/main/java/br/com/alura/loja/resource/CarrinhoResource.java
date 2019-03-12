@@ -26,9 +26,12 @@ public class CarrinhoResource {
 	@Path("{id}") // queremos receber o id (parametro) pela uri
 	@GET // o que será produzido sera consumido pelo cliente através do método get
 	@Produces(MediaType.APPLICATION_XML) // p/ o cliente saber q o que esta sendo produzido é um json
-	public String busca(@PathParam("id") long id) {
+	public Carrinho busca(@PathParam("id") long id) {
 
-		return new CarrinhoDAO().busca(id).toXML();// busca o carrinho 1 e retorna a representação em json
+		// return new CarrinhoDAO().busca(id).toXML();// busca o carrinho 1 e retorna a
+		// representação em json (utlizando lib xStream)
+
+		return new CarrinhoDAO().busca(id); // utilizando agora o serializador padrão do jax-rs (jaxb)
 
 		// curl http://localhost:8080/carrinhos/1
 	}
@@ -36,10 +39,9 @@ public class CarrinhoResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_XML) // nao retorna mais a string <status>sucesso</status> então não produz mais
 											// nada e sim consome. Obrigado passar agora o content-type na requisição
-	public Response adiciona(String conteudo) {
+	public Response adiciona(Carrinho carrinho) {
 
-		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
-		new CarrinhoDAO().adiciona(carrinho);
+		new CarrinhoDAO().adiciona(carrinho);// utilizando agora jaxb
 
 		URI uri = URI.create("/carrinhos/" + carrinho.getId()); // Location do recurso
 
